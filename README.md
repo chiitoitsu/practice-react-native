@@ -7,5 +7,6 @@
 
 # 리액트 네이티브 강좌
 
+-   [공식 레퍼런스](https://facebook.github.io/react-native/)
 -   [리액트 네이티브로 투두앱 만들기](https://www.inflearn.com/course/react-native-make-todo)
 -   [인스타그램 UI 만들기](https://velog.io/@anpigon/series/React-Native-UI-%EB%A7%8C%EB%93%A4%EA%B8%B0)
