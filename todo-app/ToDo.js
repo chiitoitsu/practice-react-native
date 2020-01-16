@@ -1,12 +1,22 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, TextInput } from 'react-native'
+import PropTypes from 'prop-types'
 
 const { height, width } = Dimensions.get('window')
 
 export default class ToDo extends React.Component {
-	state = {
-		isEditing: false,
-		isCompleted: false
+	constructor(props) {
+		super(props)
+		this.state = {
+			isEditing: false,
+			toDoValue: props.text
+		}
+	}
+	static propTypes = {
+		text: PropTypes.string.isRequired,
+		isCompleted: PropTypes.bool.isRequired,
+		deleteToDo: PropTypes.func.isRequired,
+		id: PropTypes.string.isRequired
 	}
 
 	_toggleComplete = () => {
@@ -28,8 +38,16 @@ export default class ToDo extends React.Component {
 			isEditing: false
 		})
 	}
+
+	_controlInput = text => {
+		this.setState({
+			toDoValue: text
+		})
+	}
+
 	render() {
-		const { isCompleted, isEditing } = this.state
+		const { isCompleted, isEditing, toDoValue } = this.state
+		const { text, id, deleteToDo } = this.props
 		return (
 			<View style={styles.container}>
 				<View style={styles.column}>
@@ -41,14 +59,29 @@ export default class ToDo extends React.Component {
 							]}
 						/>
 					</TouchableOpacity>
-					<Text
-						style={[
-							styles.text,
-							isCompleted ? styles.completedText : styles.uncompletedText
-						]}
-					>
-						Hello
-					</Text>
+					{isEditing ? (
+						<TextInput
+							style={[
+								styles.input,
+								styles.text,
+								isCompleted ? styles.completedText : styles.uncompletedText
+							]}
+							value={toDoValue}
+							multiline={true}
+							onChange={this._controlInput}
+							returnKeyType='done'
+							onBlur={this._finishEditing}
+						/>
+					) : (
+						<Text
+							style={[
+								styles.text,
+								isCompleted ? styles.completedText : styles.uncompletedText
+							]}
+						>
+							{text}
+						</Text>
+					)}
 				</View>
 
 				{isEditing ? (
@@ -66,7 +99,7 @@ export default class ToDo extends React.Component {
 								<Text style={styles.actionText}>Edit</Text>
 							</View>
 						</TouchableOpacity>
-						<TouchableOpacity>
+						<TouchableOpacity onPressOut={() => deleteToDo(id)}>
 							<View style={styles.actionContainer}>
 								<Text style={styles.actionText}>Delete</Text>
 							</View>
@@ -116,13 +149,17 @@ const styles = StyleSheet.create({
 	column: {
 		width: width / 2,
 		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-between'
+		alignItems: 'center'
 	},
 	actions: {
 		flexDirection: 'row'
 	},
 	actionContainer: {
+		marginVertical: 10,
+		marginHorizontal: 10
+	},
+	input: {
+		width: width / 2,
 		marginVertical: 10,
 		marginHorizontal: 10
 	}
