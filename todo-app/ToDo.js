@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, TextInput } from 'react-native'
 import PropTypes from 'prop-types'
+import { Updates } from 'expo'
 
 const { height, width } = Dimensions.get('window')
 
@@ -18,7 +19,8 @@ export default class ToDo extends React.Component {
 		deleteToDo: PropTypes.func.isRequired,
 		id: PropTypes.string.isRequired,
 		completedToDo: PropTypes.func.isRequired,
-		uncompletedToDo: PropTypes.func.isRequired
+		uncompletedToDo: PropTypes.func.isRequired,
+		updateToDo: PropTypes.func.isRequired
 	}
 
 	_toggleComplete = () => {
@@ -37,6 +39,9 @@ export default class ToDo extends React.Component {
 	}
 
 	_finishEditing = () => {
+		const { toDoValue } = this.state
+		const { id, updateToDo } = this.props
+		updateToDo(id, toDoValue)
 		this.setState({
 			isEditing: false
 		})
@@ -71,7 +76,7 @@ export default class ToDo extends React.Component {
 							]}
 							value={toDoValue}
 							multiline={true}
-							onChange={this._controlInput}
+							onChangeText={this._controlInput}
 							returnKeyType='done'
 							onBlur={this._finishEditing}
 						/>

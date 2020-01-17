@@ -108,6 +108,22 @@ export default class App extends React.Component {
 		})
 	}
 
+	_updateToDo = (id, text) => {
+		this.setState(prevState => {
+			const newState = {
+				...prevState,
+				toDos: {
+					...prevState.toDos,
+					[id]: {
+						...prevState.toDos[id],
+						text: text
+					}
+				}
+			}
+			return { ...newState }
+		})
+	}
+
 	render() {
 		const { newToDo, loadedToDos, toDos } = this.state
 
@@ -136,6 +152,7 @@ export default class App extends React.Component {
 								deleteToDo={this._deleteToDo}
 								completedToDo={this._completedToDo}
 								uncompletedToDo={this._uncompletedToDo}
+								updateToDo={this._updateToDo}
 								{...toDo}
 							/>
 						))}
