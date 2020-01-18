@@ -10,8 +10,14 @@
 		"icon": "./assets/icon.png",
 		"splash": {
 			"image": "./assets/splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
+			"resizeMode": "cover",
+			"backgroundColor": "#f23657",
+			"ldpi": "./assets/splash.png",
+			"mdpi": "./assets/splash.png",
+			"hdpi": "./assets/splash.png",
+			"xhdpi": "./assets/splash.png",
+			"xxhdpi": "./assets/splash.png",
+			"xxxhdpi": "./assets/splash.png"
 		},
 		"updates": {
 			"fallbackToCacheTimeout": 0
@@ -19,6 +25,9 @@
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
 			"supportsTablet": true
+		},
+		"android": {
+			"package": "co.chiitoitsu.todo"
 		}
 	}
 }
