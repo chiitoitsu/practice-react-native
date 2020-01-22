@@ -75,7 +75,7 @@ const weatherCases = {
 		icon: 'weather-cloudy',
 		colors: ['#D7D2CC', '#304352'],
 		title: 'Clouds',
-		subtitle: 'I know, fucking boring'
+		subtitle: "There's a heavy cloud inside my head"
 	},
 	Mist: {
 		icon: 'weather-hail',
