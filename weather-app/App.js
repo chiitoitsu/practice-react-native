@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, StatusBar, Alert } from 'react-native'
+import * as Location from 'expo-location'
 import Weather from './Weather'
 
 export default class App extends React.Component {
@@ -8,21 +9,23 @@ export default class App extends React.Component {
 		error: null
 	}
 	componentDidMount() {
-		navigator.geolocation.getCurrentPosition(
-			position => {
-				this.setState({
-					isLoaded: true
-				})
-			},
-			error => {
-				this.setState({
-					error: error
-				})
-			}
-		)
+		this._getLocation()
+	}
+	_getLocation = async () => {
+		try {
+			await Location.requestPermissionsAsync()
+			const {
+				coords: { latitude, longitude }
+			} = await Location.getCurrentPositionAsync()
+			this.setState({
+				isLoaded: true
+			})
+		} catch (error) {
+			Alert.alert('Error', error.message)
+		}
 	}
 	render() {
-		const { isLoaded, error } = this.state
+		const { isLoaded } = this.state
 		return (
 			<View style={styles.container}>
 				<StatusBar hidden={true} />
@@ -31,7 +34,6 @@ export default class App extends React.Component {
 				) : (
 					<View style={styles.loading}>
 						<Text style={styles.loadingText}>Getting the weather</Text>
-						{error ? Alert.alert('Error', error.message) : null}
 					</View>
 				)}
 			</View>
@@ -43,11 +45,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#fff'
-	},
-	errorText: {
-		color: 'red',
-		backgroundColor: 'transparent',
-		marginBottom: 40
 	},
 	loading: {
 		flex: 1,
