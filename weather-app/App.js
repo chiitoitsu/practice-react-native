@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, StatusBar } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, Alert } from 'react-native'
 import Weather from './Weather'
 
 export default class App extends React.Component {
@@ -31,7 +31,7 @@ export default class App extends React.Component {
 				) : (
 					<View style={styles.loading}>
 						<Text style={styles.loadingText}>Getting the weather</Text>
-						{error ? <Text style={styles.errorText}>{error}</Text> : null}
+						{error ? Alert.alert('Error', error.message) : null}
 					</View>
 				)}
 			</View>
